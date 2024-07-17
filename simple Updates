@@ -1,0 +1,50 @@
+# Install required libraries
+!pip install deepface opencv-python
+
+# Import necessary libraries
+import cv2
+from deepface import DeepFace
+from google.colab.patches import cv2_imshow
+from google.colab import files
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to detect emotion
+def detect_emotion(img):
+    # Perform face detection and emotion analysis
+    try:
+        result = DeepFace.analyze(img, actions=['emotion'])
+        
+        # Get the dominant emotion
+        emotion = result[0]['dominant_emotion']
+        
+        # Draw bounding box and emotion text
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            cv2.putText(img, emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36,255,12), 2)
+        
+        # Display the result
+        plt.figure(figsize=(12,8))
+        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        plt.axis('off')
+        plt.title('Detected Emotion: ' + emotion)
+        plt.show()
+        
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+# Upload an image
+uploaded = files.upload()
+
+# Get the file name of the uploaded image
+file_name = next(iter(uploaded))
+
+# Read the image
+img = cv2.imread(file_name)
+
+# Detect emotion
+detect_emotion(img)
