@@ -1,7 +1,7 @@
-# Install required libraries
+# 1st cell here we Install required libraries
 !pip install deepface opencv-python
 
-# Import necessary libraries
+# 2nd cell here we Import necessary libraries
 import cv2
 from deepface import DeepFace
 from google.colab.patches import cv2_imshow
@@ -9,7 +9,7 @@ from google.colab import files
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Function to detect emotion
+# 3rd cell here we are creating Function to detect emotion
 def detect_emotion(img):
     # Perform face detection and emotion analysis
     try:
@@ -37,7 +37,7 @@ def detect_emotion(img):
     except Exception as e:
         print(f"Error: {str(e)}")
 
-# Upload an image
+#4th cell here we Upload an image
 uploaded = files.upload()
 
 # Get the file name of the uploaded image
